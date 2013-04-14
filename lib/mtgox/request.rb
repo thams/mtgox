@@ -13,7 +13,10 @@ module MtGox
     private
 
     def request(method, path, options)
-      response = connection.send(method) do |request|
+      # It is from here that the "method" param might distinguish authenticated or not
+      # path certainly does
+      # And you need a different "connection" depending on which.
+      response = connection(method).send(method) do |request|
         case method
         when :get
           request.url(path, options)
